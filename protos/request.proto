@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package domain;
+option go_package = "/protos";
+
+message DomainRequest {
+  RequestProperty prop = 1;
+}
+
+message RequestProperty {
+  uint32 id = 1;
+}

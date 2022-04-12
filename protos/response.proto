@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package domain;
+option go_package = "/protos";
+
+message DomainResponse {
+  uint32 status = 1;
+}

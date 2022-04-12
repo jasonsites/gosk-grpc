@@ -1,0 +1,27 @@
+{
+  "name": "gosk-grpc",
+  "version": "0.0.1",
+  "description": "Go Starter Kit for gRPC API Applications",
+  "engines": {
+    "node": ">=16.x"
+  },
+  "keywords": [
+    "api",
+    "go",
+    "golang",
+    "grpc",
+    "http",
+    "starter kit",
+    "web"
+  ],
+  "author": "Jason Sites <email@jasonsites.com> (https://github.com/jasonsites)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jasonsites/gosk-grpc.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jasonsites/gosk-grpc/issues"
+  },
+  "homepage": "https://github.com/jasonsites/gosk-grpc#readme"
+}

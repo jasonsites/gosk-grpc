@@ -1,0 +1,18 @@
+
+[log]
+level = "info"
+
+[postgres]
+database = "db"
+host = "localhost"
+password = "postgres"
+port = 5432
+user = "postgres"
+
+[server]
+host = "localhost"
+port = 50051
+
+[httpserver]
+host = ""
+port = 9051

@@ -1,0 +1,61 @@
+version: '3.9'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./testutils/Dockerfile
+    command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; just server'
+    depends_on:
+      - db
+    environment:
+      APP_ENV: dev
+      LOG_LEVEL: info
+      POSTGRES_DB: svcdb
+      POSTGRES_HOST: db
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: postgres
+      POSTGRES_VERSION: 14
+      SERVER_HOST: ""
+      SVCUSER_HOST: http://host.docker.internal:8000
+    ports:
+      - 50051:50051
+    volumes:
+      - .:/app
+      - /app/vendor
+
+  gateway:
+    build:
+      context: .
+      dockerfile: ./testutils/Dockerfile.gateway
+    depends_on:
+      - api
+    environment:
+      APP_ENV: dev
+      LOG_LEVEL: info
+      SERVER_HOST: "host.docker.internal"
+      SERVER_PORT: "50051"
+      HTTPSERVER_HOST: ""
+      HTTPSERVER_PORT: "9051"
+    ports:
+      - 9051:9051
+
+  db:
+    image: postgres:14
+    deploy:
+      restart_policy:
+        condition: on-failure
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_MULTIPLE_DATABASES: svcdb,testdb
+    ports:
+      - 35432:5432
+    volumes:
+      - ./testutils:/docker-entrypoint-initdb.d/
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:

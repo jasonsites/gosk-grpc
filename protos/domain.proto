@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package domain;
+option go_package = "/protos";
+
+import "annotations.proto";
+
+import "request.proto";
+import "response.proto";
+
+message empty {}
+
+service Domain {
+  rpc Action (DomainRequest) returns (DomainResponse) {
+    option (google.api.http) = {
+      post: "/domain/action",
+      body: "*"
+    };
+  };
+}

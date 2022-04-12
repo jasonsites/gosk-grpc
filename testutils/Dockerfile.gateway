@@ -1,0 +1,17 @@
+FROM golang:1.18-alpine AS build
+
+WORKDIR /src/
+COPY . /src/
+RUN CGO_ENABLED=0 go build -mod=readonly -o out/bin/gateway ./cmd/gateway
+
+
+FROM alpine
+
+RUN mkdir -p app
+WORKDIR /app
+COPY --from=build /src/package.json /src/config/config.toml /src/out/bin/gateway /app/
+RUN chmod +x config.toml package.json && apk --no-cache add curl
+
+EXPOSE 9051
+
+ENTRYPOINT [ "/app/gateway" ]
